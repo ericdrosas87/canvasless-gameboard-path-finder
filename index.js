@@ -31,14 +31,18 @@ for(let i = 0; i < map.length; i++) {
                 span.id = "start-position";
             }
             span.style.backgroundColor = "green";
+            
+            // Bind event listeners
             addBlockClickListener(span);
             addBlockHoverListener(span);
         } else {
             span.style.backgroundColor = "blue";
         }
         
+        // Add attributes to the view elements to tie the element back to the map model
         span.setAttribute("data-x-pos", j);
         span.setAttribute("data-y-pos", i);
+
         span.classList.add("game-block");
         span.style.display = "inline-block";
         mapContainer.appendChild(span);
@@ -55,6 +59,8 @@ function addBlockClickListener(block) {
         let destY = e.target.getAttribute("data-y-pos");
         destination[0] = destX;
         destination[1] = destY;
+
+        // Call the algorithm to determine if the move is valid
         let moveIsValid = findPath(playPos[0], playPos[1], 5);
         if(moveIsValid) {
             playPos[0] = destX;
@@ -117,7 +123,7 @@ function findPath(startX, startY, movesLeft, debug = "") {
             foundTile = true;
         }
 
-        // Try up, down, left, right
+        // Try up, down, left, right - recursively
         if(!foundTile && startY != 0 && map[startY - 1][startX] > 0) { // up
             foundTile = findPath(startX, startY - 1, movesLeft - 1, "UP");
         }
